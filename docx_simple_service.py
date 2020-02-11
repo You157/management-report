@@ -9,6 +9,7 @@ from docx import Document
 from docx.shared import RGBColor
 from docx.shared import Inches
 from docx.shared import Pt
+from docx.shared import Cm, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 class SimpleDocxService:
@@ -63,20 +64,38 @@ class SimpleDocxService:
         self.paragraph.add_run(text).font.color.rgb = RGBColor(r, g, b)
 
     def paragraph_alignment_center(self):
-        # テキストを中央に配置
-        print("paragraph_alignment_center()")
-        # paragraph_format = self.paragraph.paragraph_format
-        # paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTERR
+        # テキストを中央に配置する
+        paragraph_format = self.paragraph.paragraph_format
+        paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    
+    def paragraph_alignment_left(self):
+        # テキストを左に配置する
+        paragraph_format = self.paragraph.paragraph_format
+        paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
         
+    def paragraph_alignment_right(self):
+        # テキストを右に配置する
+        paragraph_format = self.paragraph.paragraph_format
+        paragraph_format.alignment = WD_ALIGN_PARAGRAPH.RIGHT
 
     def add_picture(self, filename, inch):
         # 図を挿入する
         self.document.add_picture(filename, width=Inches(inch))
 
-    def add_table(self):
+    def add_table(self,rows,cols):
         # 表を挿入する
-        pass
-
+        self.table = self.document.add_table(rows, cols)
+        
+    def add_value_to_table(self,rows,cols,value):
+        # 表に値を挿入する
+        row_cells = self.table.rows[rows].cells
+        row_cells[cols].text = value
+        
+    def columns_width(self, cols, width):
+        # 表の列幅を変更する
+        for cell in self.table.columns[cols].cells:
+            cell.width = Cm(width)
+    
     def add_page_break(self):
         # 改ページを行う
         self.document.add_page_break()
