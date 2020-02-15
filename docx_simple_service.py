@@ -7,7 +7,6 @@ Created on Sat Feb  8 14:09:35 2020
 
 from docx import Document
 from docx.shared import RGBColor
-from docx.shared import Inches
 from docx.shared import Pt
 from docx.shared import Cm, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
