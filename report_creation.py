@@ -14,7 +14,7 @@ def start():
     # document作成
     docx = SimpleDocxService()
     date = input('Enter the date you want to create')
-    for row in row_result:
+    for i, row in enumerate(row_result):
         # 名前
         name = row[0]
         # 機能訓練Ⅰ
@@ -55,9 +55,12 @@ def start():
         docx.close_text()
         # 利用者氏名
         name = name
-        docx.add_head('利用者氏名：{}'.format(name), 1)
+        docx.add_head('利用者氏名', 1)
+        docx.open_text()
+        docx.add_text('{}'.format(name))
+        docx.close_text()
         # 機能訓練Ⅰ
-        docx.add_head('個別機能訓練Ⅰ', 1)
+        docx.add_head('個別機能訓練1', 1)
         docx.open_text()
         docx.add_text('【長期目標】：{}\n'.format(one_long_goal))
         docx.add_text('　【達成度】：{}\n'.format(one_long_level))
@@ -65,7 +68,7 @@ def start():
         docx.add_text('　【達成度】：{}'.format(one_short_level))
         docx.close_text()
         # 機能訓練Ⅱ
-        docx.add_head('個別機能訓練Ⅱ', 1)
+        docx.add_head('個別機能訓練2', 1)
         docx.open_text()
         docx.add_text('【長期目標】：{}\n'.format(two_long_goal))
         docx.add_text('　【達成度】：{}\n'.format(two_long_level))
@@ -77,7 +80,8 @@ def start():
         docx.open_text()
         docx.add_text('{}'.format(evaluate))
         # 改行
-        docx.add_page_break()
+        if len(row_result)-1 != i:
+            docx.add_page_break()
 
     # 保存して終了
     docx.save("機能訓練報告書.docx")
